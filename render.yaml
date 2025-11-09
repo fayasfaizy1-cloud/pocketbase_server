@@ -1,8 +1,10 @@
 services:
   - type: web
-    name: pocketbase
+    name: pocketbase-server
     env: docker
     plan: free
-    autoDeploy: true
-    ports:
-      - 8090
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        value: 10000

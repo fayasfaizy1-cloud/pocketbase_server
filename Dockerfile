@@ -1,16 +1,18 @@
-# Use an official minimal image
+# Use Alpine Linux
 FROM alpine:latest
 
-# Set working directory
+# Install dependencies
+RUN apk add --no-cache ca-certificates
+
+# Copy PocketBase binary to container
 WORKDIR /app
+COPY ./pocketbase ./
 
-# Copy PocketBase binary and data
-COPY pocketbase.exe /app/pocketbase
-COPY pb_data /app/pb_data
-COPY pb_migrations /app/pb_migrations
+# Create data folder
+RUN mkdir -p /app/pb_data
 
-# Expose PocketBase port
-EXPOSE 8090
+# Expose port 10000
+EXPOSE 10000
 
 # Run PocketBase
-CMD ["/app/pocketbase", "serve", "--http=0.0.0.0:8090"]
+CMD ["./pocketbase", "serve", "--http", "0.0.0.0:10000"]
